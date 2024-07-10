@@ -1,5 +1,6 @@
 package com.library.cli;
 
+import com.library.config.ConfigurationManager;
 import com.library.facade.LibraryFacade;
 import com.library.model.Book;
 import com.library.model.User;
@@ -10,10 +11,13 @@ import java.util.Scanner;
 
 public class LibraryCLI {
     private LibraryFacade facade = new LibraryFacade();
+    ConfigurationManager configManager = ConfigurationManager.getInstance();
 
     public void start() {
         Scanner scanner = new Scanner(System.in);
+        String libraryName = configManager.getLibraryName();
         while (true) {
+            System.out.println("Bem vindo a " + libraryName);
             System.out.println("Escolha uma opção:");
             System.out.println("1. Buscar Livros");
             System.out.println("2. Emprestar Livros");
