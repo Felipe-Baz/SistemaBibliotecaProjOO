@@ -16,6 +16,13 @@ public class Book {
         this.categoryId = categoryId;
     }
 
+    public Book(String title, String author, String categoryId, boolean isBorrowed) {
+        this.title = title;
+        this.author = author;
+        this.isBorrowed = isBorrowed;
+        this.categoryId = categoryId;
+    }
+
     // Getters e Setters
     public String getId() {
         return id;

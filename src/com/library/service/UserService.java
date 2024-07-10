@@ -1,13 +1,12 @@
 package com.library.service;
 
-import com.library.model.Book;
-import com.library.model.User;
+import com.library.model.*;
 import com.library.repository.UserRepository;
 
 import java.util.List;
 
 public class UserService {
-    private UserRepository repository = new UserRepository();
+    private UserRepository repository = UserRepository.getInstance();
 
     public List<User> searchBooks(String keyword) {
         return repository.searchUsers(keyword);
@@ -23,5 +22,35 @@ public class UserService {
 
     public User getUserInfo(String userId) {
         return repository.findUserById(userId);
+    }
+
+    public boolean addUser(StudentUserType newUser) {
+        User user = repository.findUserById(newUser.getId());
+
+        if (user == null) {
+            repository.addUser(newUser);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addUser(TeacherUserType newUser) {
+        User user = repository.findUserById(newUser.getId());
+
+        if (user == null) {
+            repository.addUser(newUser);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addUser(StaffUserType newUser) {
+        User user = repository.findUserById(newUser.getId());
+
+        if (user == null) {
+            repository.addUser(newUser);
+            return true;
+        }
+        return false;
     }
 }

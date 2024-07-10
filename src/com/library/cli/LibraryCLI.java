@@ -2,8 +2,7 @@ package com.library.cli;
 
 import com.library.config.ConfigurationManager;
 import com.library.facade.LibraryFacade;
-import com.library.model.Book;
-import com.library.model.User;
+import com.library.model.*;
 import com.library.model.composite.BookCategoryComposite;
 
 import java.util.List;
@@ -17,6 +16,7 @@ public class LibraryCLI {
         Scanner scanner = new Scanner(System.in);
         String libraryName = configManager.getLibraryName();
         while (true) {
+            clearScreen();
             System.out.println("Bem vindo a " + libraryName);
             System.out.println("Escolha uma opção:");
             System.out.println("1. Buscar Livros");
@@ -25,10 +25,12 @@ public class LibraryCLI {
             System.out.println("4. Consultar Informações de Livros");
             System.out.println("5. Consultar Informações de Usuários");
             System.out.println("6. Gerenciar Categorias de Livros");
-            System.out.println("7. Sair");
+            System.out.println("7. Adicionar Livros");
+            System.out.println("8. Adicionar Usuarios");
+            System.out.println("9. Sair");
 
             int choice = scanner.nextInt();
-            scanner.nextLine();  // Consumir a nova linha
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
@@ -50,6 +52,12 @@ public class LibraryCLI {
                     manageCategories(scanner);
                     break;
                 case 7:
+                    addBooks(scanner);
+                    break;
+                case 8:
+                    addUser(scanner);
+                    break;
+                case 9:
                     System.out.println("Saindo...");
                     return;
                 default:
@@ -57,6 +65,125 @@ public class LibraryCLI {
             }
         }
     }
+
+    private void addUser(Scanner scanner) {
+        boolean aux = true;
+        while (aux) {
+            System.out.println("Escolha uma opção:");
+            System.out.println("1. Adicionar Aluno");
+            System.out.println("2. Adicionar Professor");
+            System.out.println("3. Adicionar Funcionario");
+            System.out.println("4. Cancelar");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    addStudent(scanner);
+                    aux = false;
+                    break;
+                case 2:
+                    addTeacher(scanner);
+                    aux = false;
+                    break;
+                case 3:
+                    addStaff(scanner);
+                    aux = false;
+                    break;
+                case 4:
+                    System.out.println("Cancelando...");
+                    aux = false;
+                    break;
+                default:
+                    System.out.println("Opção inválida, tente novamente.");
+            }
+        }
+    }
+
+    private void addTeacher(Scanner scanner) {
+        System.out.println("Digite o nome:");
+        String nome = scanner.nextLine();
+        System.out.println("Digite o email:");
+        String email = scanner.nextLine();
+
+        TeacherUserType teacherUserType = new TeacherUserType(
+                nome,
+                email
+        );
+
+        boolean success = facade.addUser(teacherUserType);
+        if (success) {
+            System.out.println("Usuario criado com sucesso.");
+        } else {
+            System.out.println("Não foi possível criar o usuario.");
+        }
+    }
+
+    private void addStaff(Scanner scanner) {
+        System.out.println("Digite o nome:");
+        String nome = scanner.nextLine();
+        System.out.println("Digite o email:");
+        String email = scanner.nextLine();
+
+        StaffUserType staffUserType = new StaffUserType(
+            nome,
+            email
+        );
+
+        boolean success = facade.addUser(staffUserType);
+        if (success) {
+            System.out.println("Usuario criado com sucesso.");
+        } else {
+            System.out.println("Não foi possível criar o usuario.");
+        }
+    }
+
+    private void addStudent(Scanner scanner) {
+        System.out.println("Digite o nome:");
+        String nome = scanner.nextLine();
+        System.out.println("Digite o email:");
+        String email = scanner.nextLine();
+
+        StudentUserType studentUserType = new StudentUserType(
+            nome,
+            email
+        );
+
+        boolean success = facade.addUser(studentUserType);
+        if (success) {
+            System.out.println("Usuario criado com sucesso.");
+        } else {
+            System.out.println("Não foi possível criar o usuario.");
+        }
+    }
+
+    private void addBooks(Scanner scanner) {
+        System.out.println("Digite o ID do usuário:");
+        String userId = scanner.nextLine();
+        System.out.println("Digite o titulo:");
+        String title = scanner.nextLine();
+        System.out.println("Digite o nome do author:");
+        String author = scanner.nextLine();
+        System.out.println("Digite o ID da categoria:");
+        String category = scanner.nextLine();
+
+        Book book = new Book(
+                title,
+                author,
+                category,
+                false
+        );
+
+        boolean success = facade.addBook(book, userId);
+        if (success) {
+            System.out.println("Livro criado com sucesso.");
+        } else {
+            System.out.println("Não foi possível criar o livro.");
+        }
+    }
+
+
 
     private void searchBooks(Scanner scanner) {
         System.out.println("Digite o título ou autor do livro:");
@@ -137,6 +264,10 @@ public class LibraryCLI {
         }
     }
 
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
 
     public static void main(String[] args) {
         LibraryCLI cli = new LibraryCLI();

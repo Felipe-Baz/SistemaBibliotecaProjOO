@@ -1,16 +1,17 @@
 package com.library.service;
 
-import com.library.model.Book;
-import com.library.model.User;
+import com.library.model.*;
 import com.library.model.composite.BookCategoryComposite;
+import com.library.notifier.BookAvailabilityNotifier;
 import com.library.repository.BookRepository;
 import com.library.repository.UserRepository;
 
 import java.util.List;
 
 public class BookService {
-    private BookRepository repository = new BookRepository();
-    private UserRepository userRepository = new UserRepository();
+    private BookRepository repository = BookRepository.getInstance();
+    private UserRepository userRepository = UserRepository.getInstance();
+    private BookAvailabilityNotifier notifier = BookAvailabilityNotifier.getInstance();
 
     public List<Book> searchBooks(String keyword) {
         return repository.searchBooks(keyword);
@@ -22,6 +23,19 @@ public class BookService {
 
         if (book != null && user != null && !book.isBorrowed() && user.canBorrowBook()) {
             book.setBorrowed(true);
+            notifier.notifyBookStatusChange(book, "Emprestado");
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addBook(Book book, String userId) {
+        Book bookId = repository.findBookById(book.getId());
+        User user = userRepository.findUserById(userId);
+
+        if (bookId == null && user != null && !book.isBorrowed() && user.canAddBook()) {
+            repository.addBook(book);
+            notifier.notifyNewBookAdded(book);
             return true;
         }
         return false;
@@ -33,6 +47,7 @@ public class BookService {
 
         if (book != null && user != null && book.isBorrowed()) {
             book.setBorrowed(false);
+            notifier.notifyBookStatusChange(book, "Devolvido");
             return true;
         }
         return false;

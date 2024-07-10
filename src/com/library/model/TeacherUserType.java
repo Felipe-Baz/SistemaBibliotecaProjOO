@@ -1,15 +1,23 @@
 package com.library.model;
 
 public class TeacherUserType extends User {
-    public TeacherUserType(String id, String name) {
-        super(id, name);
+    public TeacherUserType(String id, String name, String email) {
+        super(id, name, email);
+    }
+
+    public TeacherUserType(String name, String email) {
+        super( name, email);
     }
 
     @Override
     public boolean canBorrowBook() {
-        // Implementar a lógica específica para professores
         return false;
     }
 
-    // Outros métodos específicos para professores...
+    public void receiveNotification(String message) {
+    }
+
+    public boolean canAddBook() {
+        return false;
+    }
 }

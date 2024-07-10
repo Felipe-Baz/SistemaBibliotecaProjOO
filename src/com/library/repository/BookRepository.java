@@ -3,6 +3,7 @@ package com.library.repository;
 import com.library.model.Book;
 import com.library.model.User;
 import com.library.model.composite.BookCategoryComposite;
+import com.library.notifier.BookAvailabilityNotifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +13,17 @@ public class BookRepository {
     private List<Book> books = new ArrayList<>();
     private BookCategoryComposite rootCategory;
 
+    private static BookRepository instance;
+
+    public static BookRepository getInstance() {
+        if (instance == null) {
+            instance = new BookRepository();
+        }
+        return instance;
+    }
+
     // Método para adicionar livros e usuários para teste
-    public BookRepository() {
+    private BookRepository() {
         books.add(new Book("1", "Effective Java", "Joshua Bloch", "2", false));
         books.add(new Book("2", "Clean Code", "Robert C. Martin", "1",false));
         books.add(new Book("3", "Design Patterns", "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides", "1",false));
@@ -49,4 +59,9 @@ public class BookRepository {
         return rootCategory.findSubCategoryById(categoryId);
     }
 
+    public void addBook(Book book) {
+        int id = books.size();
+        book.setId(String.valueOf(id));
+        books.add(book);
+    }
 }

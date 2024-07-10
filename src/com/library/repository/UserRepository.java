@@ -4,6 +4,7 @@ import com.library.model.StaffUserType;
 import com.library.model.StudentUserType;
 import com.library.model.TeacherUserType;
 import com.library.model.User;
+import com.library.notifier.BookAvailabilityNotifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,15 +12,24 @@ import java.util.stream.Collectors;
 
 public class UserRepository {
     private List<User> users = new ArrayList<>();
+    BookAvailabilityNotifier notifier = BookAvailabilityNotifier.getInstance();
 
-    // Método para adicionar livros e usuários para teste
-    public UserRepository() {
-        users.add(new StudentUserType("1", "Nome 1"));
-        users.add(new StudentUserType("2", "Roberto Goes"));
-        users.add(new TeacherUserType("3", "Ralph Johnson"));
-        users.add(new TeacherUserType("4", "Brian Goetz"));
-        users.add(new StaffUserType("5", "Jose Goetz"));
-        users.add(new StaffUserType("6", "Kleber Goes"));
+    private static UserRepository instance;
+
+    public static UserRepository getInstance() {
+        if (instance == null) {
+            instance = new UserRepository();
+        }
+        return instance;
+    }
+
+    private UserRepository() {
+        users.add(new StudentUserType("1", "Neymar", "neymar@example.com"));
+        users.add(new StudentUserType("2", "Roberto Goes", "RobertoGoes@example.com"));
+        users.add(new TeacherUserType("3", "Ralph Johnson", "RalphJohnson@example.com"));
+        users.add(new TeacherUserType("4", "Brian Goetz", "BrianGoetz@example.com"));
+        users.add(new StaffUserType("5", "Jose Goetz", "JoseGoetz@example.com"));
+        users.add(new StaffUserType("6", "Kleber Goes", "KleberGoes@example.com"));
     }
 
     public List<User> searchUsers(String keyword) {
@@ -35,5 +45,16 @@ public class UserRepository {
                 .orElse(null);
     }
 
-    // Métodos para adicionar livros, usuários, buscar livros, etc.
+    public void addUser(StudentUserType user) {
+        users.add(user);
+        notifier.addObserver(user);
+    }
+
+    public void addUser(StaffUserType user) {
+        users.add(user);
+    }
+
+    public void addUser(TeacherUserType user) {
+        users.add(user);
+    }
 }

@@ -3,15 +3,18 @@ package com.library.model;
 public abstract class User {
     private String id;
     private String name;
-
-    // Construtor padrão
-    public User() {
-    }
+    private String email;
 
     // Construtor com parâmetros
-    public User(String id, String name) {
+    public User(String id, String name, String email) {
         this.id = id;
         this.name = name;
+        this.email = email;
+    }
+
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
     }
 
     // Getters e Setters
@@ -31,5 +34,17 @@ public abstract class User {
         this.name = name;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public abstract boolean canBorrowBook();
+
+    public abstract boolean canAddBook();
+
+    public abstract void receiveNotification(String message);
 }
