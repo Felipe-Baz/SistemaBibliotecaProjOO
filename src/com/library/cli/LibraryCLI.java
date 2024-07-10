@@ -1,13 +1,14 @@
 package com.library.cli;
 
+import com.library.facade.LibraryFacade;
 import com.library.model.Book;
-import com.library.service.LibraryService;
+import com.library.model.User;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class LibraryCLI {
-    private LibraryService service = new LibraryService();
+    private LibraryFacade facade = new LibraryFacade();
 
     public void start() {
         Scanner scanner = new Scanner(System.in);
@@ -25,20 +26,19 @@ public class LibraryCLI {
 
             switch (choice) {
                 case 1:
-                    // Implementar buscar livros
                     searchBooks(scanner);
                     break;
                 case 2:
-                    // Implementar emprestar livros
+                    borrowBook(scanner);
                     break;
                 case 3:
-                    // Implementar devolver livros
+                    returnBook(scanner);
                     break;
                 case 4:
-                    // Implementar consultar informações de livros
+                    getBookInfo(scanner);
                     break;
                 case 5:
-                    // Implementar consultar informações de usuários
+                    getUserInfo(scanner);
                     break;
                 case 6:
                     System.out.println("Saindo...");
@@ -52,7 +52,7 @@ public class LibraryCLI {
     private void searchBooks(Scanner scanner) {
         System.out.println("Digite o título ou autor do livro:");
         String keyword = scanner.nextLine();
-        List<Book> books = service.searchBooks(keyword);
+        List<Book> books = facade.searchBooks(keyword);
         if (books.isEmpty()) {
             System.out.println("Nenhum livro encontrado.");
         } else {
@@ -63,9 +63,56 @@ public class LibraryCLI {
         }
     }
 
+    private void borrowBook(Scanner scanner) {
+        System.out.println("Digite o ID do livro:");
+        String bookId = scanner.nextLine();
+        System.out.println("Digite o ID do usuário:");
+        String userId = scanner.nextLine();
+        boolean success = facade.borrowBook(bookId, userId);
+        if (success) {
+            System.out.println("Livro emprestado com sucesso.");
+        } else {
+            System.out.println("Empréstimo falhou. Verifique se o livro está disponível.");
+        }
+    }
+
+    private void returnBook(Scanner scanner) {
+        System.out.println("Digite o ID do livro:");
+        String bookId = scanner.nextLine();
+        System.out.println("Digite o ID do usuário:");
+        String userId = scanner.nextLine();
+        boolean success = facade.returnBook(bookId, userId);
+        if (success) {
+            System.out.println("Livro devolvido com sucesso.");
+        } else {
+            System.out.println("Devolução falhou. Verifique se o livro foi realmente emprestado.");
+        }
+    }
+
+    private void getBookInfo(Scanner scanner) {
+        System.out.println("Digite o ID do livro:");
+        String bookId = scanner.nextLine();
+        Book book = facade.getBookInfo(bookId);
+        if (book != null) {
+            System.out.println("ID: " + book.getId() + ", Título: " + book.getTitle() + ", Autor: " + book.getAuthor() + ", Emprestado: " + book.isBorrowed());
+        } else {
+            System.out.println("Livro não encontrado.");
+        }
+    }
+
+    private void getUserInfo(Scanner scanner) {
+        System.out.println("Digite o ID do usuário:");
+        String userId = scanner.nextLine();
+        User user = facade.getUserInfo(userId);
+        if (user != null) {
+            System.out.println("ID: " + user.getId() + ", Nome: " + user.getName());
+        } else {
+            System.out.println("Usuário não encontrado.");
+        }
+    }
+
     public static void main(String[] args) {
         LibraryCLI cli = new LibraryCLI();
         cli.start();
     }
-
 }

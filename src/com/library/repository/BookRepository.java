@@ -25,5 +25,12 @@ public class BookRepository {
                 .collect(Collectors.toList());
     }
 
+    public Book findBookById(String bookId) {
+        return books.stream()
+                .filter(book -> book.getId().equals(bookId))
+                .findFirst()
+                .orElse(null);
+    }
+
     // Métodos para adicionar livros, usuários, buscar livros, etc.
 }

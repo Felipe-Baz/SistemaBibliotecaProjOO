@@ -23,5 +23,12 @@ public class UserRepository {
                 .collect(Collectors.toList());
     }
 
+    public User findUserById(String userId) {
+        return users.stream()
+                .filter(user -> user.getId().equals(userId))
+                .findFirst()
+                .orElse(null);
+    }
+
     // Métodos para adicionar livros, usuários, buscar livros, etc.
 }
