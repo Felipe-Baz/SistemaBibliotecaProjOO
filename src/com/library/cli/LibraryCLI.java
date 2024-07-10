@@ -3,6 +3,7 @@ package com.library.cli;
 import com.library.facade.LibraryFacade;
 import com.library.model.Book;
 import com.library.model.User;
+import com.library.model.composite.BookCategoryComposite;
 
 import java.util.List;
 import java.util.Scanner;
@@ -19,7 +20,8 @@ public class LibraryCLI {
             System.out.println("3. Devolver Livros");
             System.out.println("4. Consultar Informações de Livros");
             System.out.println("5. Consultar Informações de Usuários");
-            System.out.println("6. Sair");
+            System.out.println("6. Gerenciar Categorias de Livros");
+            System.out.println("7. Sair");
 
             int choice = scanner.nextInt();
             scanner.nextLine();  // Consumir a nova linha
@@ -41,6 +43,9 @@ public class LibraryCLI {
                     getUserInfo(scanner);
                     break;
                 case 6:
+                    manageCategories(scanner);
+                    break;
+                case 7:
                     System.out.println("Saindo...");
                     return;
                 default:
@@ -58,7 +63,8 @@ public class LibraryCLI {
         } else {
             System.out.println("Livros encontrados:");
             for (Book book : books) {
-                System.out.println("ID: " + book.getId() + ", Título: " + book.getTitle() + ", Autor: " + book.getAuthor());
+                BookCategoryComposite category = facade.getCategoryInfo(book.getCategoryId());
+                System.out.println("ID: " + book.getId() + ", Título: " + book.getTitle() + ", Autor: " + book.getAuthor() + ", Categoria: " + category.getName());
             }
         }
     }
@@ -94,7 +100,8 @@ public class LibraryCLI {
         String bookId = scanner.nextLine();
         Book book = facade.getBookInfo(bookId);
         if (book != null) {
-            System.out.println("ID: " + book.getId() + ", Título: " + book.getTitle() + ", Autor: " + book.getAuthor() + ", Emprestado: " + book.isBorrowed());
+            BookCategoryComposite category = facade.getCategoryInfo(book.getCategoryId());
+            System.out.println("ID: " + book.getId() + ", Título: " + book.getTitle() + ", Autor: " + book.getAuthor() + ", Categoria: " + category.getName() + ", Emprestado: " + book.isBorrowed());
         } else {
             System.out.println("Livro não encontrado.");
         }
@@ -110,6 +117,22 @@ public class LibraryCLI {
             System.out.println("Usuário não encontrado.");
         }
     }
+
+    private void manageCategories(Scanner scanner) {
+        BookCategoryComposite rootCategory = facade.getRootCategory();
+        printCategory(rootCategory, 0);
+    }
+
+    private void printCategory(BookCategoryComposite category, int indent) {
+        for (int i = 0; i < indent; i++) {
+            System.out.print("  ");
+        }
+        System.out.println(category.getName());
+        for (BookCategoryComposite subCategory : category.getSubCategories()) {
+            printCategory(subCategory, indent + 1);
+        }
+    }
+
 
     public static void main(String[] args) {
         LibraryCLI cli = new LibraryCLI();

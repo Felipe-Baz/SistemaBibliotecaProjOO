@@ -1,7 +1,7 @@
 package com.library.service;
 
 import com.library.model.Book;
-import com.library.model.User;
+import com.library.model.composite.BookCategoryComposite;
 import com.library.repository.BookRepository;
 
 import java.util.List;
@@ -35,4 +35,11 @@ public class BookService {
         return repository.findBookById(bookId);
     }
 
+    public BookCategoryComposite getRootCategory() {
+        return repository.getRootCategory();
+    }
+
+    public BookCategoryComposite getCategoryInfo(String categoryId) {
+        return repository.findCategoryById(categoryId);
+    }
 }

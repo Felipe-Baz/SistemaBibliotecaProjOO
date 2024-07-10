@@ -2,6 +2,7 @@ package com.library.facade;
 
 import com.library.model.Book;
 import com.library.model.User;
+import com.library.model.composite.BookCategoryComposite;
 import com.library.service.BookService;
 import com.library.service.UserService;
 
@@ -34,5 +35,13 @@ public class LibraryFacade {
 
     public User getUserInfo(String userId) {
         return userService.getUserInfo(userId);
+    }
+
+    public BookCategoryComposite getRootCategory() {
+        return bookService.getRootCategory();
+    }
+
+    public BookCategoryComposite getCategoryInfo(String categoryId) {
+        return bookService.getCategoryInfo(categoryId);
     }
 }
