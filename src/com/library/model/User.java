@@ -1,6 +1,6 @@
 package com.library.model;
 
-public class User {
+public abstract class User {
     private String id;
     private String name;
 
@@ -30,4 +30,6 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
+
+    public abstract boolean canBorrowBook();
 }

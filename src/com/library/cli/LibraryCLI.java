@@ -78,7 +78,7 @@ public class LibraryCLI {
         if (success) {
             System.out.println("Livro emprestado com sucesso.");
         } else {
-            System.out.println("Empréstimo falhou. Verifique se o livro está disponível.");
+            System.out.println("Não foi possível emprestar o livro.");
         }
     }
 
