@@ -1,9 +1,8 @@
 package com.library.repository;
 
+import com.library.external.ExternalCatalogAdapter;
 import com.library.model.Book;
-import com.library.model.User;
 import com.library.model.composite.BookCategoryComposite;
-import com.library.notifier.BookAvailabilityNotifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +11,7 @@ import java.util.stream.Collectors;
 public class BookRepository {
     private List<Book> books = new ArrayList<>();
     private BookCategoryComposite rootCategory;
+    private ExternalCatalogAdapter externalCatalogAdapter;
 
     private static BookRepository instance;
 
@@ -22,12 +22,13 @@ public class BookRepository {
         return instance;
     }
 
-    // Método para adicionar livros e usuários para teste
     private BookRepository() {
+        externalCatalogAdapter = new ExternalCatalogAdapter();
+
         books.add(new Book("1", "Effective Java", "Joshua Bloch", "2", 1, false));
-        books.add(new Book("2", "Clean Code", "Robert C. Martin", "1", 1,false));
-        books.add(new Book("3", "Design Patterns", "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides", "1", 1,false));
-        books.add(new Book("4", "Java Concurrency in Practice", "Brian Goetz", "2",1,false));
+        books.add(new Book("2", "Clean Code", "Robert C. Martin", "1", 1, false));
+        books.add(new Book("3", "Design Patterns", "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides", "1", 1, false));
+        books.add(new Book("4", "Java Concurrency in Practice", "Brian Goetz", "2", 1, false));
 
         // Adicionando categorias de exemplo
         rootCategory = new BookCategoryComposite("root", "All Categories");
@@ -35,6 +36,16 @@ public class BookRepository {
         BookCategoryComposite java = new BookCategoryComposite("2", "Java");
         programming.addSubCategory(java);
         rootCategory.addSubCategory(programming);
+
+        // Carregar livros e categorias do adaptador externo
+        books.addAll(externalCatalogAdapter.getBooks());
+        mergeCategories(rootCategory, externalCatalogAdapter.getRootCategory());
+    }
+
+    private void mergeCategories(BookCategoryComposite localCategory, BookCategoryComposite externalCategory) {
+        for (BookCategoryComposite subCategory : externalCategory.getSubCategories()) {
+            localCategory.addSubCategory(subCategory);
+        }
     }
 
     public List<Book> searchBooks(String keyword) {
@@ -60,8 +71,12 @@ public class BookRepository {
     }
 
     public void addBook(Book book) {
-        int id = books.size();
-        book.setId(String.valueOf(id));
+        externalCatalogAdapter.addBook(book);
         books.add(book);
+    }
+
+    public void addCategory(BookCategoryComposite category) {
+        externalCatalogAdapter.addCategory(category);
+        rootCategory.addSubCategory(category);
     }
 }
