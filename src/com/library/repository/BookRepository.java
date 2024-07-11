@@ -24,10 +24,10 @@ public class BookRepository {
 
     // Método para adicionar livros e usuários para teste
     private BookRepository() {
-        books.add(new Book("1", "Effective Java", "Joshua Bloch", "2", false));
-        books.add(new Book("2", "Clean Code", "Robert C. Martin", "1",false));
-        books.add(new Book("3", "Design Patterns", "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides", "1",false));
-        books.add(new Book("4", "Java Concurrency in Practice", "Brian Goetz", "2",false));
+        books.add(new Book("1", "Effective Java", "Joshua Bloch", "2", 1, false));
+        books.add(new Book("2", "Clean Code", "Robert C. Martin", "1", 1,false));
+        books.add(new Book("3", "Design Patterns", "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides", "1", 1,false));
+        books.add(new Book("4", "Java Concurrency in Practice", "Brian Goetz", "2",1,false));
 
         // Adicionando categorias de exemplo
         rootCategory = new BookCategoryComposite("root", "All Categories");

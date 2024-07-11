@@ -13,6 +13,15 @@ public class BookService {
     private UserRepository userRepository = UserRepository.getInstance();
     private BookAvailabilityNotifier notifier = BookAvailabilityNotifier.getInstance();
 
+    private static BookService instance;
+
+    public static BookService getInstance() {
+        if (instance == null) {
+            instance = new BookService();
+        }
+        return instance;
+    }
+
     public List<Book> searchBooks(String keyword) {
         return repository.searchBooks(keyword);
     }
@@ -23,19 +32,25 @@ public class BookService {
 
         if (book != null && user != null && !book.isBorrowed() && user.canBorrowBook()) {
             book.setBorrowed(true);
+            book.decrementAmount();
+            user.setLoanedBooksIncrement();
             notifier.notifyBookStatusChange(book, "Emprestado");
             return true;
         }
         return false;
     }
 
-    public boolean addBook(Book book, String userId) {
-        Book bookId = repository.findBookById(book.getId());
+    public boolean addBook(Book bookId, String userId) {
+        Book book = repository.findBookById(bookId.getId());
         User user = userRepository.findUserById(userId);
 
-        if (bookId == null && user != null && !book.isBorrowed() && user.canAddBook()) {
-            repository.addBook(book);
-            notifier.notifyNewBookAdded(book);
+        if (user != null && !book.isBorrowed() && user.canAddBook()) {
+            if (book != null) {
+                repository.addBook(book);
+                notifier.notifyNewBookAdded(book);
+            } else {
+                book.incrementAmount();
+            }
             return true;
         }
         return false;
@@ -47,6 +62,8 @@ public class BookService {
 
         if (book != null && user != null && book.isBorrowed()) {
             book.setBorrowed(false);
+            book.incrementAmount();
+            user.setLoanedBooksDecrement();
             notifier.notifyBookStatusChange(book, "Devolvido");
             return true;
         }

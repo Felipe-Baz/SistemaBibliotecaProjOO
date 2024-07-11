@@ -10,7 +10,7 @@ public class ConfigurationManager {
         return instance;
     }
 
-    public String getLibraryName() {
-        return "Biblioteca Unifesp";
-    }
+    public String getLibraryName() { return "Biblioteca Unifesp"; }
+
+    public int getLoanLimit() { return 3; }
 }

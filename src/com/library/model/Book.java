@@ -5,15 +5,17 @@ public class Book {
     private String title;
     private String author;
     private String categoryId;
+    private int amount;
     private boolean isBorrowed;
 
     // Construtor com parâmetros
-    public Book(String id, String title, String author, String categoryId, boolean isBorrowed) {
+    public Book(String id, String title, String author, String categoryId, int amount, boolean isBorrowed) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.isBorrowed = isBorrowed;
         this.categoryId = categoryId;
+        this.amount = amount;
     }
 
     public Book(String title, String author, String categoryId, boolean isBorrowed) {
@@ -62,5 +64,25 @@ public class Book {
 
     public void setBorrowed(boolean borrowed) {
         isBorrowed = borrowed;
+    }
+
+    public int getAmount() {
+        return this.amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public void incrementAmount() {
+        this.amount++;
+    }
+
+    public void decrementAmount() {
+        this.amount--;
+    }
+
+    public boolean isAvailable() {
+        return this.amount != 0;
     }
 }

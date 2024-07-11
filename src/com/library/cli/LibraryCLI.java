@@ -1,5 +1,9 @@
 package com.library.cli;
 
+import com.library.chainOfResponsability.BookAvailabilityHandler;
+import com.library.chainOfResponsability.LibraryApprovalHandler;
+import com.library.chainOfResponsability.LoanLimitHandler;
+import com.library.chainOfResponsability.UserEligibilityHandler;
 import com.library.config.ConfigurationManager;
 import com.library.facade.LibraryFacade;
 import com.library.model.*;
@@ -15,6 +19,7 @@ public class LibraryCLI {
     public void start() {
         Scanner scanner = new Scanner(System.in);
         String libraryName = configManager.getLibraryName();
+
         while (true) {
             clearScreen();
             System.out.println("Bem vindo a " + libraryName);
