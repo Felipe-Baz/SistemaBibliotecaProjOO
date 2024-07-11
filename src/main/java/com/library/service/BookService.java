@@ -1,6 +1,8 @@
 package com.library.service;
 
 import com.library.model.*;
+import com.library.model.Book;
+import com.library.model.User;
 import com.library.model.composite.BookCategoryComposite;
 import com.library.notifier.BookAvailabilityNotifier;
 import com.library.repository.BookRepository;
@@ -40,17 +42,18 @@ public class BookService {
         return false;
     }
 
-    public boolean addBook(Book bookId, String userId) {
-        Book book = repository.findBookById(bookId.getId());
+    public boolean addBook(Book book, String userId) {
+        Book bookFounded = repository.findBookById(book.getId());
         User user = userRepository.findUserById(userId);
 
-        if (user != null && !book.isBorrowed() && user.canAddBook()) {
-            if (book != null) {
+        if (bookFounded == null) { // Não existe ainda
+            if (user != null && user.canAddBook()) {
                 repository.addBook(book);
                 notifier.notifyNewBookAdded(book);
-            } else {
-                book.incrementAmount();
+                return true;
             }
+        } else if (!book.isBorrowed()) { // adicionar uma copia
+            book.incrementAmount();
             return true;
         }
         return false;

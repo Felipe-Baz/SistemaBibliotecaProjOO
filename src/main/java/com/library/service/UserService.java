@@ -1,6 +1,10 @@
 package com.library.service;
 
 import com.library.model.*;
+import com.library.model.StaffUserType;
+import com.library.model.StudentUserType;
+import com.library.model.TeacherUserType;
+import com.library.model.User;
 import com.library.repository.UserRepository;
 
 import java.util.List;

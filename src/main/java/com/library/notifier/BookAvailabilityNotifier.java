@@ -1,6 +1,5 @@
 package com.library.notifier;
 
-import com.library.config.ConfigurationManager;
 import com.library.model.Book;
 import com.library.model.User;
 
