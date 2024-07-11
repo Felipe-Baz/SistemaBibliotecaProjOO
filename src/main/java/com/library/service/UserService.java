@@ -38,32 +38,38 @@ public class UserService {
     }
 
     public boolean addUser(StudentUserType newUser) {
-        User user = repository.findUserById(newUser.getId());
-
-        if (user == null) {
-            repository.addUser(newUser);
-            return true;
+        if(newUser.getId() != null) {
+            User user = repository.findUserById(newUser.getId());
+            if (user != null) {
+                return false;
+            }
         }
-        return false;
+
+        repository.addUser(newUser);
+        return true;
     }
 
     public boolean addUser(TeacherUserType newUser) {
-        User user = repository.findUserById(newUser.getId());
-
-        if (user == null) {
-            repository.addUser(newUser);
-            return true;
+        if(newUser.getId() != null) {
+            User user = repository.findUserById(newUser.getId());
+            if (user != null) {
+                return false;
+            }
         }
-        return false;
+
+        repository.addUser(newUser);
+        return true;
     }
 
     public boolean addUser(StaffUserType newUser) {
-        User user = repository.findUserById(newUser.getId());
-
-        if (user == null) {
-            repository.addUser(newUser);
-            return true;
+        if(newUser.getId() != null) {
+            User user = repository.findUserById(newUser.getId());
+            if (user != null) {
+                return false;
+            }
         }
-        return false;
+
+        repository.addUser(newUser);
+        return true;
     }
 }

@@ -63,8 +63,20 @@ public class LibraryFacadeTest {
     }
 
     @Test
-    public void testAddUser() {
+    public void testAddStudentUser() {
         StudentUserType student = new StudentUserType("John Doe", "john.doe@example.com");
+        assertTrue(libraryFacade.addUser(student));
+    }
+
+    @Test
+    public void testAddTeacherUser() {
+        TeacherUserType student = new TeacherUserType("John Doe", "john.doe@example.com");
+        assertTrue(libraryFacade.addUser(student));
+    }
+
+    @Test
+    public void testAddStaffUser() {
+        StaffUserType student = new StaffUserType("John Doe", "john.doe@example.com");
         assertTrue(libraryFacade.addUser(student));
     }
 
