@@ -18,7 +18,6 @@ public abstract class User {
         this.email = email;
     }
 
-    // Getters e Setters
     public String getId() {
         return id;
     }

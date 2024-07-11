@@ -8,7 +8,6 @@ public class Book {
     private int amount;
     private boolean isBorrowed;
 
-    // Construtor com parâmetros
     public Book(String id, String title, String author, String categoryId, int amount, boolean isBorrowed) {
         this.id = id;
         this.title = title;

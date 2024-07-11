@@ -23,21 +23,21 @@ public class BookServiceTest {
 
     @Test
     public void testBorrowBookSuccess() {
-        String bookId = "1"; // Assuming "Effective Java" is available
-        String userId = "1"; // Assuming user ID exists and is eligible
+        String bookId = "1";
+        String userId = "1";
         assertTrue(bookService.borrowBook(bookId, userId));
     }
 
     @Test
     public void testBorrowBookFailure() {
-        String bookId = "1"; // Assuming "Effective Java" is already borrowed
-        String userId = "5"; // Assuming user ID exists but is not eligible
+        String bookId = "1";
+        String userId = "5";
         assertFalse(bookService.borrowBook(bookId, userId));
     }
 
     @Test
     public void testAddBookNewBook() {
-        String userId = "1"; // Assuming admin user ID
+        String userId = "1";
         Book newBook = new Book("5", "New Book", "Author", "2", 1, false);
         assertTrue(bookService.addBook(newBook, userId));
     }
@@ -45,20 +45,20 @@ public class BookServiceTest {
     @Test
     public void testAddBookExistingBook() {
         String userId = "1"; // Assuming admin user ID
-        Book existingBook = bookService.getBookInfo("1"); // Assuming "Effective Java" exists
-        assertFalse(bookService.addBook(existingBook, userId)); // Adding a copy should fail
+        Book existingBook = bookService.getBookInfo("1");
+        assertFalse(bookService.addBook(existingBook, userId));
     }
 
     @Test
     public void testReturnBookSuccess() {
-        String bookId = "1"; // Assuming "Effective Java" is borrowed by user
-        String userId = "1"; // Assuming user ID exists and borrowed the book
+        String bookId = "1";
+        String userId = "1";
         assertTrue(bookService.returnBook(bookId, userId));
     }
 
     @Test
     public void testGetBookInfo() {
-        String bookId = "1"; // Assuming "Effective Java" exists
+        String bookId = "1";
         Book book = bookService.getBookInfo(bookId);
         assertNotNull(book);
         assertEquals("Effective Java", book.getTitle());
@@ -68,12 +68,12 @@ public class BookServiceTest {
     public void testGetRootCategory() {
         BookCategoryComposite rootCategory = bookService.getRootCategory();
         assertNotNull(rootCategory);
-        assertEquals("root", rootCategory.getId()); // Assuming root category ID is "root"
+        assertEquals("root", rootCategory.getId());
     }
 
     @Test
     public void testGetCategoryInfo() {
-        String categoryId = "2"; // Assuming category ID exists
+        String categoryId = "2";
         BookCategoryComposite category = bookService.getCategoryInfo(categoryId);
         assertNotNull(category);
         assertEquals("Java", category.getName());

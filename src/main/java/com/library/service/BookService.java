@@ -46,13 +46,13 @@ public class BookService {
         Book bookFounded = repository.findBookById(book.getId());
         User user = userRepository.findUserById(userId);
 
-        if (bookFounded == null) { // Não existe ainda
+        if (bookFounded == null) {
             if (user != null && user.canAddBook()) {
                 repository.addBook(book);
                 notifier.notifyNewBookAdded(book);
                 return true;
             }
-        } else if (!book.isBorrowed()) { // adicionar uma copia
+        } else if (!book.isBorrowed()) {
             book.incrementAmount();
             return true;
         }

@@ -26,8 +26,8 @@ public class LibraryFacadeTest {
 
     @Test
     public void testBorrowBook() {
-        String bookId = "1"; // Assuming "Effective Java" is available
-        String userId = "1"; // Assuming user ID exists and is eligible
+        String bookId = "1";
+        String userId = "1";
         assertTrue(libraryFacade.borrowBook(bookId, userId));
     }
 
@@ -41,7 +41,7 @@ public class LibraryFacadeTest {
 
     @Test
     public void testGetBookInfo() {
-        String bookId = "1"; // Assuming "Effective Java" exists
+        String bookId = "1";
         Book book = libraryFacade.getBookInfo(bookId);
         assertNotNull(book);
         assertEquals("Effective Java", book.getTitle());
@@ -49,15 +49,15 @@ public class LibraryFacadeTest {
 
     @Test
     public void testGetUserInfo() {
-        String userId = "1"; // Assuming user ID exists
+        String userId = "1";
         User user = libraryFacade.getUserInfo(userId);
         assertNotNull(user);
-        assertTrue(user instanceof StudentUserType); // Assuming user type is student
+        assertTrue(user instanceof StudentUserType);
     }
 
     @Test
     public void testAddBook() {
-        String userId = "5"; // Assuming admin user ID
+        String userId = "5";
         Book newBook = new Book("New Book", "Author", "2", false);
         assertTrue(libraryFacade.addBook(newBook, userId));
     }
@@ -70,7 +70,7 @@ public class LibraryFacadeTest {
 
     @Test
     public void testGetCategoryInfo() {
-        String categoryId = "2"; // Assuming category ID exists
+        String categoryId = "2";
         BookCategoryComposite category = libraryFacade.getCategoryInfo(categoryId);
         assertNotNull(category);
         assertEquals("Java", category.getName());
